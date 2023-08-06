@@ -1,0 +1,19 @@
+name: do
+
+on:
+  schedule:
+    - cron: 0 1-13 * * *
+  workflow_dispatch:
+
+jobs:
+  do:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        env:
+          MESSAGES: ${{ vars.MESSAGES }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          IFS=';'; read -ra messages <<< "$MESSAGES"; RANDOM=$$$(date +%s)
+          picked_message=${messages[ $RANDOM % ${#messages[@]} ]};
+          curl -X POST "$DISCORD_WEBHOOK_URL" -H "Content-Type: application/json" -d "{\"content\":\"$picked_message\"}"
