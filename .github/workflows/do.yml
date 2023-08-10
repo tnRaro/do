@@ -2,7 +2,7 @@ name: do
 
 on:
   schedule:
-    - cron: 0 1-16 * * *
+    - cron: 0 1-19 * * *
   workflow_dispatch:
 
 jobs:
